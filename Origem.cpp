@@ -4,17 +4,25 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <iostream>
+#include "tserial.h"
+#include "bot_control.h"
 
 using namespace std;
 using namespace cv;
+serial comm;
+
+
+void Arduino(char data) {
+	char com = 'COM6';
+	comm.startDevice(&com, 9600);
+	comm.send_data(data);
+	comm.stopDevice();
+}
 
 int main() {
-
 	VideoCapture cam(0);
-
 	namedWindow("img");
 	namedWindow("borda");
-
 	Mat img, gray, borda;
 	int a, b;
 	cvCreateTrackbar("A", "img", 0, 500);
@@ -24,9 +32,6 @@ int main() {
 
 	cvMoveWindow("img", 0, 0);
 	cvMoveWindow("borda", 700, 0);
-
-	
-
 	while (true) {
 		a = getTrackbarPos("A", "img");
 		b = getTrackbarPos("B", "img");
@@ -46,7 +51,8 @@ int main() {
 		for (int i = 0; i < 50; i++) {
 			for (int j = 0; j < 50; j++) {
 				if (borda.at<uchar>(i, j) >= 255) {
-					printf("ON");
+					printf("ON\n");
+					Arduino('L');
 					break;
 				}
 			}
@@ -55,7 +61,8 @@ int main() {
 		for (int i = 0; i < 50; i++) {
 			for (int j = 590; j < 640; j++) {
 				if (borda.at<uchar>(i, j) >= 255) {
-					printf("OFF");
+					printf("OF\n");
+					Arduino('D');
 					break;
 				}
 			}
