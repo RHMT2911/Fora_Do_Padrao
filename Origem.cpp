@@ -10,16 +10,22 @@
 using namespace std;
 using namespace cv;
 serial comm;
+char com[4];
+
 
 
 void Arduino(char data) {
-	char com = 'COM6';
-	comm.startDevice(&com, 9600);
+	
+	comm.startDevice(com, 9600);
 	comm.send_data(data);
 	comm.stopDevice();
 }
 
 int main() {
+	com[0] = 'C';
+	com[1] = 'O';
+	com[2] = 'M';
+	com[3] = '6';
 	VideoCapture cam(0);
 	namedWindow("img");
 	namedWindow("borda");
@@ -70,7 +76,51 @@ int main() {
 
 		imshow("img", img);
         imshow("borda", borda);
-
+		if (_kbhit()) {
+			int a;
+			printf("Digite o valor da sua porta");
+			printf("\n1 - COM1");
+			printf("\n2 - COM2");
+			printf("\n3 - COM3");
+			printf("\n4 - COM4");
+			printf("\n5 - COM5");
+			printf("\n6 - COM6\n");
+			fflush(stdin);
+			scanf("%i", &a);
+			switch (a)
+			{
+			case 1:
+				com[3] = '1';
+				break;
+			case 2:
+				com[3] = '2';
+				break;
+			case 3:
+				com[3] = '3';
+				break;
+			case 4:
+				com[3] = '4';
+				break;
+			case 5:
+				com[3] = '5';
+				break;
+			case 6:
+				com[3] = '6';
+				break;
+			case 7:
+				com[3] = '7';
+				break;
+			case 8:
+				com[3] = '8';
+				break;
+			case 9:
+				com[3] = '9';
+				break;
+			default:
+				com[3] = '6';
+				break;
+			}
+		}
 		waitKey(30);
 	}
 	

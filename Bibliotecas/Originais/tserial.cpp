@@ -69,7 +69,7 @@ void Tserial::disconnect(void)
     if (serial_handle!=INVALID_HANDLE_VALUE)
         CloseHandle(serial_handle);
     serial_handle = INVALID_HANDLE_VALUE;
-}
+} 
 /* -------------------------------------------------------------------- */
 /* --------------------------    connect      ------------------------- */
 /* -------------------------------------------------------------------- */
@@ -88,7 +88,12 @@ int  Tserial::connect          (char *port_arg, int rate_arg, serial_parity pari
 
     if (port_arg!=0)
     {
-        //strncpy(port, port_arg, 10);
+		for(int i = 0; i<4; i++)
+		{
+		port[i] = port_arg[i];	
+		}
+
+		//strncpy_s(port, port_arg, 10);
         rate      = rate_arg;
         parityMode= parity_arg;
         memset(&dcb,0,sizeof(dcb));
@@ -141,7 +146,7 @@ int  Tserial::connect          (char *port_arg, int rate_arg, serial_parity pari
         dcb.EvtChar         = 0;
         
         /* -------------------------------------------------------------------- */
-        serial_handle    = CreateFile("COM3", GENERIC_READ | GENERIC_WRITE,
+        serial_handle    = CreateFile(port, GENERIC_READ | GENERIC_WRITE,
                                0, NULL, OPEN_EXISTING,NULL,NULL);
                    // opening serial port
 
