@@ -43,7 +43,7 @@ int main() {
 		b = getTrackbarPos("B", "img");
 
 		cam.read(img);
-	   cvtColor(img, gray, COLOR_RGB2GRAY);
+		cvtColor(img, gray, COLOR_RGB2GRAY);
 		Canny(gray, borda, a, b);
 
 		flip(img, img, 1);
@@ -53,7 +53,7 @@ int main() {
 
 		putText(img, "OFF", { 0,80 }, CV_FONT_HERSHEY_SIMPLEX, 1, { 255,255,255 }, 2, cv::LINE_AA);
 		putText(img, "ON", { 590,80 }, CV_FONT_HERSHEY_SIMPLEX, 1, { 255,255,255 }, 2, cv::LINE_AA);
-		
+
 		for (int i = 0; i < 50; i++) {
 			for (int j = 0; j < 50; j++) {
 				if (borda.at<uchar>(i, j) >= 255) {
@@ -67,53 +67,58 @@ int main() {
 		for (int i = 0; i < 50; i++) {
 			for (int j = 590; j < 640; j++) {
 				if (borda.at<uchar>(i, j) >= 255) {
-					printf("OF\n");
+					printf("OFF\n");
 					Arduino('D');
 					break;
 				}
 			}
 		}
 
-		imshow("img", img);
-        imshow("borda", borda);
 		if (_kbhit()) {
 			int a;
-			printf("Digite o valor da sua porta");
-			printf("\n1 - COM1");
-			printf("\n2 - COM2");
-			printf("\n3 - COM3");
-			printf("\n4 - COM4");
-			printf("\n5 - COM5");
-			printf("\n6 - COM6\n");
+			printf(" Digite o valor da sua porta ");
+			printf(" \n 1 - COM1 ");
+			printf(" \n 2 - COM2 ");
+			printf(" \n 3 - COM3 ");
+			printf(" \n 4 - COM4 ");
+			printf(" \n 5 - COM5 ");
+			printf(" \n 6 - COM6 \n ");
 			fflush(stdin);
 			scanf("%i", &a);
-			switch (a)
+			switch(a)
 			{
-			case 1:
+				case  1:
 				com[3] = '1';
 				break;
-			case 2:
+
+				case  2:
 				com[3] = '2';
 				break;
-			case 3:
+				
+				case  3:
 				com[3] = '3';
 				break;
-			case 4:
+				
+				case  4:
 				com[3] = '4';
 				break;
-			case 5:
+				
+				case  5:
 				com[3] = '5';
 				break;
-			case 6:
+				
+				case  6:
 				com[3] = '6';
 				break;
-			case 7:
+				
+				case  7:
 				com[3] = '7';
 				break;
-			case 8:
+				
+				case  8:
 				com[3] = '8';
 				break;
-			case 9:
+				case  9:
 				com[3] = '9';
 				break;
 			default:
@@ -121,9 +126,11 @@ int main() {
 				break;
 			}
 		}
+		imshow("img", img);
+		imshow("borda", borda);
 		waitKey(30);
 	}
-	
+
 
 
 
